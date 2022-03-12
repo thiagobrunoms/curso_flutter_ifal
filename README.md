@@ -11,6 +11,5 @@ Este projeto é um aplicativo em Flutter para dentistas e pacientes.
 2. Ainda no terminal, digite: "flutter run -d [DEVICE_ID]", no qual DEVICE_ID está na lista dos dispositivos encontrados no Passo 1.
 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Para iniciar no Flutter, a 
+[documentação oficial](https://flutter.dev/docs), é um excelente fonte de tutorial, exemplos, guia de desenvolvimento mobile etc.
