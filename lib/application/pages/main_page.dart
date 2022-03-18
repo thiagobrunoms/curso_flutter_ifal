@@ -1,3 +1,7 @@
+import 'package:curso_ifal_flutter/application/models/appointment.dart';
+import 'package:curso_ifal_flutter/application/models/appointment_time.dart';
+import 'package:curso_ifal_flutter/application/models/patient.dart';
+import 'package:curso_ifal_flutter/application/pages/widgets/main_page_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -8,18 +12,70 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  late Appointment appointment;
+  @override
+  void initState() {
+    super.initState();
+
+    appointment = Appointment(
+      patient: Patient('../../', 'Thiago Sales'),
+      description: 'Canal dentário',
+      appointmentTime: AppointmentTime(
+        DateTime(2022, 3, 20, 10, 30),
+        DateTime(2022, 3, 20, 11, 0),
+      ),
+      isConfirmed: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 15.0, right: 15),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          padding: const EdgeInsets.all(15),
+          child: Column(
             children: [
-              _buildDoctorInfo(),
-              _buildNotificationIcon(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const MainPageBarWidget(),
+                  _buildNotificationIcon(),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      width: 5,
+                      height: 70,
+                      color: appointment.isConfirmed
+                          ? Colors.green
+                          : Colors.orange),
+                  const SizedBox(width: 12),
+                  const CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: AssetImage('assets/images/eu-perfil.png'),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _buildPatientRequestList(appointment),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.blue, shape: BoxShape.circle),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -27,17 +83,24 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _buildDoctorInfo() {
+  Widget _buildPatientRequestList(Appointment appointment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          'Good Morning',
-          style: TextStyle(fontSize: 25),
+          '${appointment.patient.name}',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Text(
-          'Dr. Adam',
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          '${appointment.description}',
+          style: TextStyle(color: Colors.grey),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: Text(
+            '${appointment.formatAppointmentTime()}',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+          ),
         ),
       ],
     );
