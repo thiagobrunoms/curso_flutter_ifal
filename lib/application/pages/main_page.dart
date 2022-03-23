@@ -1,7 +1,10 @@
 import 'package:curso_ifal_flutter/application/models/appointment.dart';
 import 'package:curso_ifal_flutter/application/models/appointment_time.dart';
 import 'package:curso_ifal_flutter/application/models/patient.dart';
+import 'package:curso_ifal_flutter/application/pages/main_page_controller.dart';
 import 'package:curso_ifal_flutter/application/pages/widgets/main_page_bar_widget.dart';
+import 'package:curso_ifal_flutter/application/pages/widgets/patient_request_widget.dart';
+import 'package:curso_ifal_flutter/application/pages/main_page_controller.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -12,20 +15,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late Appointment appointment;
+  int ourCurrentIndex = 0;
+  late MainPageController controller;
+
   @override
   void initState() {
     super.initState();
 
-    appointment = Appointment(
-      patient: Patient('../../', 'Thiago Sales'),
-      description: 'Canal dentário',
-      appointmentTime: AppointmentTime(
-        DateTime(2022, 3, 20, 10, 30),
-        DateTime(2022, 3, 20, 11, 0),
-      ),
-      isConfirmed: true,
-    );
+    controller = MainPageController();
   }
 
   @override
@@ -44,65 +41,82 @@ class _MainPageState extends State<MainPage> {
                   _buildNotificationIcon(),
                 ],
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      width: 5,
-                      height: 70,
-                      color: appointment.isConfirmed
-                          ? Colors.green
-                          : Colors.orange),
-                  const SizedBox(width: 12),
-                  const CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage: AssetImage('assets/images/eu-perfil.png'),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _buildPatientRequestList(appointment),
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.blue, shape: BoxShape.circle),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        size: 15,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              _buildAppointmentsList(),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              children: [
+                Icon(Icons.calendar_month),
+                Text('Calendario'),
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.calendar_month),
+                Text('Pedidos'),
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.calendar_month),
+                Text('lakdfld'),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildPatientRequestList(Appointment appointment) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${appointment.patient.name}',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text(
-          '${appointment.description}',
-          style: TextStyle(color: Colors.grey),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 12.0),
-          child: Text(
-            '${appointment.formatAppointmentTime()}',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+  Widget _buildAppointmentsList() {
+    return FutureBuilder<List<Appointment>>(
+      future: controller.loadAppointments(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const CircularProgressIndicator();
+        }
+
+        List<Appointment> appointmentList = snapshot.data!;
+
+        Map<int, Appointment> appointmentsMap = appointmentList.asMap();
+
+        List<Widget> appointmentWidgets = appointmentsMap.entries
+            .map((eachEntry) => _buildEachAppointment(eachEntry.value,
+                eachEntry.key == (appointmentsMap.entries.length - 1)))
+            .toList();
+
+        return Card(
+          child: Column(
+            children: appointmentWidgets,
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEachAppointment(Appointment eachAppointment, bool isLast) {
+    return Column(
+      children: [
+        PatientRequestWidget(
+          appointment: eachAppointment,
         ),
+        if (!isLast) _buildDivider(),
       ],
+    );
+  }
+
+  Widget _buildDivider() {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: Divider(height: 15, color: Colors.grey.shade400),
     );
   }
 
