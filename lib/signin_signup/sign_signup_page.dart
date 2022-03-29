@@ -11,11 +11,7 @@ class SignInSingUpPage extends StatefulWidget {
   const SignInSingUpPage({Key? key}) : super(key: key);
 
   @override
-  State<SignInSingUpPage> createState() {
-    print('createState chamado!');
-
-    return _SignInSingUpPageState();
-  }
+  State<SignInSingUpPage> createState() => _SignInSingUpPageState();
 }
 
 class _SignInSingUpPageState extends State<SignInSingUpPage> {
