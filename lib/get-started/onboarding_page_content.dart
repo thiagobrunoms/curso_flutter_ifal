@@ -1,3 +1,4 @@
+import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/sign_signup_page.dart';
 import 'package:flutter/material.dart';
 
@@ -97,21 +98,10 @@ class OnboardingPageContent extends StatelessWidget {
   }
 
   Widget _buildBackButton() {
-    return InkWell(
-      onTap: () {
-        pageController.previousPage(
-            duration: Duration(milliseconds: 300), curve: Curves.linear);
-      },
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-        ),
-        child: Icon(Icons.arrow_back),
-      ),
-    );
+    return TopBarBackButtonWidget(onTabCallback: () {
+      pageController.previousPage(
+          duration: const Duration(milliseconds: 300), curve: Curves.linear);
+    });
   }
 
   Widget _buildSkipOnboarding(BuildContext context) {

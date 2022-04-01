@@ -1,104 +1,28 @@
-import 'package:curso_ifal_flutter/signin_signup/signin_signup_controller.dart';
+import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/widets/signin_signup_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
-class FormData {
-  String nome = '';
-  String email = '';
-  String senha = '';
+class SignUpWidget extends StatefulWidget {
+  const SignUpWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SignUpWidget> createState() => _SignUpWidgetState();
 }
 
-class SignInSingUpPage extends StatefulWidget {
-  const SignInSingUpPage({Key? key}) : super(key: key);
-
-  @override
-  State<SignInSingUpPage> createState() => _SignInSingUpPageState();
-}
-
-class _SignInSingUpPageState extends State<SignInSingUpPage> {
-  late SignInSignUpController signupController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    signupController = SignInSignUpController();
-  }
-
-  @override
-  void dispose() {
-    signupController.dispose();
-    super.dispose();
-  }
-
+class _SignUpWidgetState extends State<SignUpWidget> {
   @override
   Widget build(BuildContext context) {
-    print('Build chamado! $mounted');
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Cadastro'),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: StreamBuilder<String>(
-                  stream: signupController.nameStream,
-                  builder: (context, snapshot) {
-                    return TextFormField(
-                      decoration: InputDecoration(
-                        label: Text('Nome'),
-                        hintText: 'Fulano de Tal',
-                        errorText:
-                            snapshot.error == null ? null : "${snapshot.error}",
-                      ),
-                      onChanged: (input) {
-                        signupController.nameSink.add(input);
-                      },
-                    );
-                  }),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: Column(
+              children: [
+                const SignInSignUpAppBarWidget(),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  label: Text('Email'),
-                  hintText: 'fulano@provedor.com',
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  label: Text('Senha'),
-                  hintText: '*****',
-                ),
-                obscureText: true,
-                validator: (input) {
-                  if (input != null && input.length < 8) {
-                    return 'Senha deve ter mais de 8 caracteres!';
-                  }
-
-                  return null;
-                },
-              ),
-            ),
-            ElevatedButton(
-              onPressed: null,
-              child: Text('Salvar!'),
-            ),
-            StreamBuilder<String>(
-                stream: signupController.nameStream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Text('Nome do usuario não existe!');
-
-                  return Text('Nome usuario: ${snapshot.data}');
-                })
-          ],
+          ),
         ),
       ),
     );

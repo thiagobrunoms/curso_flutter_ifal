@@ -1,5 +1,6 @@
 import 'package:curso_ifal_flutter/application/pages/main_page.dart';
 import 'package:curso_ifal_flutter/get-started/onboarding-screen-page.dart';
+import 'package:curso_ifal_flutter/signin_signup/sign_signup_page.dart';
 
 import 'package:curso_ifal_flutter/state_management_tests/streams_page.dart';
 import 'package:curso_ifal_flutter/state_management_tests/streams_page_mobx.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Euclid',
           primarySwatch: mainMaterialColor,
           primaryColor: mainMaterialColor),
-      home: StreamPageMobx(), //MainPage() //StreamPage(), //OnBoardingPage(),
+      home: SignUpWidget(), //StreamPageMobx(), //MainPage() //StreamPage(), //OnBoardingPage(),
       routes: {
         '/toSignUpPage': (BuildContext context) => SignUpPage(),
       },
