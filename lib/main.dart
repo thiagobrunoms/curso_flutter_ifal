@@ -1,6 +1,8 @@
 import 'package:curso_ifal_flutter/application/pages/main_page.dart';
 import 'package:curso_ifal_flutter/get-started/onboarding-screen-page.dart';
+
 import 'package:curso_ifal_flutter/state_management_tests/streams_page.dart';
+import 'package:curso_ifal_flutter/state_management_tests/streams_page_mobx.dart';
 import 'package:curso_ifal_flutter/tentativas/get_started/presentation/get_started_page.dart';
 import 'package:curso_ifal_flutter/tentativas/shared/layout/colors.dart';
 import 'package:curso_ifal_flutter/tentativas/sigin_signup/presentation/signinup_main_page.dart';
@@ -19,17 +21,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Dentistas',
-        theme: ThemeData(
-            scaffoldBackgroundColor: Colors.grey[100],
-            fontFamily: 'Euclid',
-            primarySwatch: mainMaterialColor,
-            primaryColor: mainMaterialColor),
-        home: MainPage() //StreamPage(), //OnBoardingPage(),
-        // routes: {
-        //   '/toSignUpPage': (BuildContext context) => SignUpPage(),
-        // },
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Dentistas',
+      theme: ThemeData(
+          scaffoldBackgroundColor: Colors.grey[100],
+          fontFamily: 'Euclid',
+          primarySwatch: mainMaterialColor,
+          primaryColor: mainMaterialColor),
+      home: StreamPageMobx(), //MainPage() //StreamPage(), //OnBoardingPage(),
+      routes: {
+        '/toSignUpPage': (BuildContext context) => SignUpPage(),
+      },
+    );
   }
 }

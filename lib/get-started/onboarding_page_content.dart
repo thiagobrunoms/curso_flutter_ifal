@@ -129,7 +129,8 @@ class OnboardingPageContent extends StatelessWidget {
   }
 
   void skip(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SignInSingUpPage()));
+    // Navigator.push(
+    //     context, MaterialPageRoute(builder: (context) => SignInSingUpPage()));
+    Navigator.pushNamed(context, '/toSignUpPage');
   }
 }
