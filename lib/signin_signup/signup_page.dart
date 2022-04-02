@@ -1,4 +1,5 @@
 import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/widets/basic_text_form_field_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/signin_signup_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               children: [
                 const SignInSignUpAppBarWidget(),
                 _createAccountText(),
+                BasicTextFormField(
+                  label: 'Nome',
+                  maxLength: 50,
+                  onChangedCallback: (content) {
+                    print(content);
+                  },
+                ),
+                BasicTextFormField(
+                  label: 'Email',
+                  maxLength: 50,
+                  inputType: TextInputType.emailAddress,
+                  onChangedCallback: (content) {
+                    print(content);
+                  },
+                ),
               ],
             ),
           ),
