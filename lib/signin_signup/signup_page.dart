@@ -75,7 +75,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.12,
                       child: ElevatedButton(
-                        onPressed: controller.isFormValid ? () {} : null,
+                        onPressed: controller.isFormValid
+                            ? () {
+                                controller.signUp();
+                              }
+                            : null,
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
