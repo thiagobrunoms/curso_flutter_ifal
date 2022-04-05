@@ -109,23 +109,27 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   Widget _buildContinueMessage() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
+        Flexible(
+          flex: 1,
           child: Divider(
             height: 10,
             color: Colors.black,
           ),
         ),
-        Expanded(
+        Flexible(
+          flex: 2,
           child: Padding(
             padding: const EdgeInsets.only(
-              left: 1.0,
-              right: 1.0,
+              left: 5.0,
+              right: 5.0,
             ),
             child: Text('Ou continuar com'),
           ),
         ),
-        Expanded(
+        Flexible(
+          flex: 1,
           child: Divider(
             height: 10,
             color: Colors.black,
