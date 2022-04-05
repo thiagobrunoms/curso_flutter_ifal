@@ -1,9 +1,10 @@
-import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/signup_controller.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/basic_text_form_field_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/widets/default_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/signin_signup_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   double leftRightPaddingValue = 20.0;
+  GoogleSignInAccount? _currentUser;
   late SignUpController controller;
 
   @override
@@ -29,8 +31,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Observer(builder: (_) {
-            // print('nameerror ${controller.nameErrorMessage}');
-            // print('name ${controller.name}');
             return Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
@@ -68,39 +68,70 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     ),
                     onChangedCallback: controller.setPassword,
                   ),
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                          top: 20, bottom: 10, left: 13, right: 13),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      child: ElevatedButton(
-                        onPressed: controller.isFormValid
-                            ? () {
-                                controller.signUp();
-                              }
-                            : null,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: const Text(
-                          'Criar conta',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
+                  _buildSignUpButton(),
+                  _buildHasAccountMessage(),
+                  _buildContinueMessage(),
                 ],
               ),
             );
           }),
         ),
       ),
+    );
+  }
+
+  Widget _buildSignUpButton() {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.only(top: 20, left: 13, right: 13),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.10,
+        child: DefaultButton(
+            title: 'Criar conta',
+            callback: controller.isFormValid
+                ? () async {
+                    await controller.signUp();
+                  }
+                : null),
+      ),
+    );
+  }
+
+  Row _buildHasAccountMessage() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Já possui uma conta?'),
+        TextButton(onPressed: () {}, child: Text('Login'))
+      ],
+    );
+  }
+
+  Widget _buildContinueMessage() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            height: 10,
+            color: Colors.black,
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 1.0,
+              right: 1.0,
+            ),
+            child: Text('Ou continuar com'),
+          ),
+        ),
+        Expanded(
+          child: Divider(
+            height: 10,
+            color: Colors.black,
+          ),
+        ),
+      ],
     );
   }
 
