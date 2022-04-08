@@ -1,7 +1,12 @@
+import 'package:curso_ifal_flutter/signin_signup/data/datasources/google_signup_datasource.dart';
+import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
+import 'package:curso_ifal_flutter/signin_signup/data/repositories/signin_signup_repository_impl.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/repositories/signin_signup_repository.dart';
 import 'package:curso_ifal_flutter/signin_signup/signup_controller.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/basic_text_form_field_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/default_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/signin_signup_app_bar_widget.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,16 +20,13 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   double leftRightPaddingValue = 20.0;
-  GoogleSignInAccount? _currentUser;
   late SignUpController controller;
-  late GoogleSignIn _googleSignIn;
 
   @override
   void initState() {
     super.initState();
 
     controller = SignUpController();
-    _googleSignIn = GoogleSignIn(scopes: ['email']);
   }
 
   @override
@@ -81,11 +83,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       Expanded(
                         child: _buildSocialNetworksButtons(
                             'assets/images/google.png', 'Google', () async {
-                          GoogleSignInAccount? _account =
-                              await _googleSignIn.signIn();
-                          print('Nome: ${_account?.displayName}');
-                          print('Email: ${_account?.email}');
-                          print('UserPhoto: ${_account?.photoUrl}');
+                          controller
+                              .setSignUpStrategy(GoogleSignUpDatasource());
+                          controller.googleSignUp();
                         }),
                       ),
                       Expanded(
@@ -120,6 +120,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             ),
             callback: controller.isFormValid
                 ? () async {
+                    controller.setSignUpStrategy(RestSignUpDatasource(Dio()));
                     await controller.signUp();
                   }
                 : null),
