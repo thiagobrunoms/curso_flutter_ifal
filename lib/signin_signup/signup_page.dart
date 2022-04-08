@@ -81,9 +81,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       Expanded(
                         child: _buildSocialNetworksButtons(
                             'assets/images/google.png', 'Google', () async {
-                          GoogleSignInAccount? account =
+                          GoogleSignInAccount? _account =
                               await _googleSignIn.signIn();
-                          print('Usuario login $account');
+                          print('Nome: ${_account?.displayName}');
+                          print('Email: ${_account?.email}');
+                          print('UserPhoto: ${_account?.photoUrl}');
                         }),
                       ),
                       Expanded(
