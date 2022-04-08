@@ -17,12 +17,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   double leftRightPaddingValue = 20.0;
   GoogleSignInAccount? _currentUser;
   late SignUpController controller;
+  late GoogleSignIn _googleSignIn;
 
   @override
   void initState() {
     super.initState();
 
     controller = SignUpController();
+    _googleSignIn = GoogleSignIn(scopes: ['email']);
   }
 
   @override
@@ -70,7 +72,26 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   ),
                   _buildSignUpButton(),
                   _buildHasAccountMessage(),
+                  const SizedBox(height: 30),
                   _buildContinueMessage(),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: _buildSocialNetworksButtons(
+                            'assets/images/google.png', 'Google', () async {
+                          GoogleSignInAccount? account =
+                              await _googleSignIn.signIn();
+                          print('Usuario login $account');
+                        }),
+                      ),
+                      Expanded(
+                        child: _buildSocialNetworksButtons(
+                            'assets/images/facebook.png', 'Facebook', () {}),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             );
@@ -87,7 +108,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.10,
         child: DefaultButton(
-            title: 'Criar conta',
+            color: Theme.of(context).primaryColor,
+            widget: const Text(
+              'Criar conta',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
             callback: controller.isFormValid
                 ? () async {
                     await controller.signUp();
@@ -160,4 +188,28 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         content,
         style: const TextStyle(fontSize: 45),
       );
+
+  Widget _buildSocialNetworksButtons(
+      String logoPath, String socialName, void Function() callback) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, right: 15),
+      child: DefaultButton.socialNetworks(
+        callback: callback,
+        widget: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            children: [
+              Image.asset(
+                logoPath,
+                width: 20,
+                height: 20,
+              ),
+              SizedBox(width: 10),
+              Text(socialName),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
