@@ -196,16 +196,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       child: DefaultButton.socialNetworks(
         callback: callback,
         widget: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Image.asset(
-                logoPath,
-                width: 20,
-                height: 20,
+              Flexible(
+                flex: 1,
+                child: Image.asset(
+                  logoPath,
+                  width: 20,
+                  height: 20,
+                ),
               ),
-              SizedBox(width: 10),
-              Text(socialName),
+              Flexible(
+                flex: 2,
+                child: Text(socialName),
+              ),
             ],
           ),
         ),
