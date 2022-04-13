@@ -2,6 +2,8 @@ import 'package:curso_ifal_flutter/signin_signup/data/datasources/signup_datasou
 import 'package:curso_ifal_flutter/signin_signup/data/repositories/signin_signup_repository_impl.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/repositories/signin_signup_repository.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/signup_entity.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/usecases/form_signup_usecase.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/usecases/google_signup_usecase.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
 import 'package:mobx/mobx.dart';
 part 'signup_controller.g.dart';
@@ -84,12 +86,16 @@ abstract class _SignUpControllerBase with Store {
     signUpEntity =
         SignUpEntity(name: name!, email: email!, password: password!);
 
-    UserEntity user = await repository.signUp(signUpEntity: signUpEntity);
+    FormSignupUsecase usecase = FormSignupUsecase(repository: repository);
+
+    UserEntity user = await usecase(param: signUpEntity);
     print('User logado: $user');
   }
 
   Future<void> googleSignUp() async {
-    UserEntity user = await repository.signUp();
+    GoogleSignupUsecase usecase = GoogleSignupUsecase(repository: repository);
+
+    UserEntity user = await usecase();
     print('User logado: $user');
   }
 }
