@@ -1,7 +1,5 @@
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/google_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
-import 'package:curso_ifal_flutter/signin_signup/data/repositories/signin_signup_repository_impl.dart';
-import 'package:curso_ifal_flutter/signin_signup/domain/repositories/signin_signup_repository.dart';
 import 'package:curso_ifal_flutter/signin_signup/signup_controller.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/basic_text_form_field_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/widets/default_button_widget.dart';
@@ -9,7 +7,7 @@ import 'package:curso_ifal_flutter/signin_signup/widets/signin_signup_app_bar_wi
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobx/mobx.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key}) : super(key: key);
@@ -19,6 +17,7 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
+  late ReactionDisposer errorDisposer;
   double leftRightPaddingValue = 20.0;
   late SignUpController controller;
 
@@ -27,6 +26,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     super.initState();
 
     controller = SignUpController();
+    errorDisposer =
+        reaction((_) => controller.errorMessage, signUpErrorHandler);
+  }
+
+  @override
+  void dispose() {
+    errorDisposer();
+    super.dispose();
+  }
+
+  void signUpErrorHandler(String? message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message!),
+    ));
   }
 
   @override
@@ -72,7 +85,18 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     ),
                     onChangedCallback: controller.setPassword,
                   ),
-                  _buildSignUpButton(),
+                  Observer(
+                    builder: (_) {
+                      if (controller.requestSignUpObsFuture?.status ==
+                          FutureStatus.pending) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      return _buildSignUpButton();
+                    },
+                  ),
                   _buildHasAccountMessage(),
                   const SizedBox(height: 30),
                   _buildContinueMessage(),

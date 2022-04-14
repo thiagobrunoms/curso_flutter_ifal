@@ -1,10 +1,12 @@
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/repositories/signin_signup_repository_impl.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/failures/failure.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/repositories/signin_signup_repository.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/signup_entity.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/usecases/form_signup_usecase.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/usecases/google_signup_usecase.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
+import 'package:dartz/dartz.dart';
 import 'package:mobx/mobx.dart';
 part 'signup_controller.g.dart';
 
@@ -26,6 +28,12 @@ abstract class _SignUpControllerBase with Store {
 
   @observable
   bool isVisible = false;
+
+  @observable
+  ObservableFuture<Either<Failure, UserEntity>>? requestSignUpObsFuture;
+
+  @observable
+  String? errorMessage;
 
   @action
   void setName(String name) {
@@ -88,9 +96,12 @@ abstract class _SignUpControllerBase with Store {
 
     FormSignupUsecase usecase = FormSignupUsecase(repository: repository);
 
-    var response = await usecase(param: signUpEntity);
-    response.fold(
-        (failure) => print(failure), (userEntity) => print(userEntity));
+    requestSignUpObsFuture = ObservableFuture(usecase(param: signUpEntity));
+    var response = await requestSignUpObsFuture;
+    response!.fold((failure) {
+      errorMessage = null;
+      errorMessage = failure.errorMessage;
+    }, (userEntity) => print(userEntity));
   }
 
   Future<void> googleSignUp() async {
