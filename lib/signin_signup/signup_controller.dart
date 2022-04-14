@@ -88,14 +88,16 @@ abstract class _SignUpControllerBase with Store {
 
     FormSignupUsecase usecase = FormSignupUsecase(repository: repository);
 
-    UserEntity user = await usecase(param: signUpEntity);
-    print('User logado: $user');
+    var response = await usecase(param: signUpEntity);
+    response.fold(
+        (failure) => print(failure), (userEntity) => print(userEntity));
   }
 
   Future<void> googleSignUp() async {
     GoogleSignupUsecase usecase = GoogleSignupUsecase(repository: repository);
 
-    UserEntity user = await usecase();
-    print('User logado: $user');
+    var response = await usecase(param: signUpEntity);
+    response.fold(
+        (failure) => print(failure), (userEntity) => print(userEntity));
   }
 }
