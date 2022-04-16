@@ -1,4 +1,3 @@
-import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signup_controller.dart';
 import 'package:flutter/material.dart';
 
 class DefaultButton extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
-import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signup_page.dart';
+
 import 'package:flutter/material.dart';
 
 class OnboardingPageContent extends StatelessWidget {
