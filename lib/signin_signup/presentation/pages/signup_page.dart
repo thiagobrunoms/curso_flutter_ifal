@@ -1,9 +1,10 @@
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/google_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
-import 'package:curso_ifal_flutter/signin_signup/signup_controller.dart';
-import 'package:curso_ifal_flutter/signin_signup/widets/basic_text_form_field_widget.dart';
-import 'package:curso_ifal_flutter/signin_signup/widets/default_button_widget.dart';
-import 'package:curso_ifal_flutter/signin_signup/widets/signin_signup_app_bar_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widets/basic_text_form_field_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widets/default_button_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widets/signin_signup_app_bar_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widets/signin_signup_title_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signup_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -17,6 +18,7 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
+  double formWidth = 0;
   late ReactionDisposer errorDisposer;
   double leftRightPaddingValue = 20.0;
   late SignUpController controller;
@@ -28,6 +30,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     controller = SignUpController();
     errorDisposer =
         reaction((_) => controller.errorMessage, signUpErrorHandler);
+  }
+
+  @override
+  void didChangeDependencies() {
+    formWidth = MediaQuery.of(context).size.width;
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -55,14 +64,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SignInSignUpAppBarWidget(),
-                  _createAccountText(),
+                  const SignInSignUpTitleWidget(titleList: ['Criar', 'Conta']),
                   BasicTextFormField(
+                    width: formWidth,
                     label: 'Nome',
                     maxLength: 50,
                     errorText: controller.nameErrorMessage,
                     onChangedCallback: controller.setName,
                   ),
                   BasicTextFormField(
+                    width: formWidth,
                     label: 'Email',
                     maxLength: 50,
                     inputType: TextInputType.emailAddress,
@@ -70,6 +81,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     onChangedCallback: controller.setEmail,
                   ),
                   BasicTextFormField(
+                    width: formWidth,
                     label: 'Senha',
                     maxLength: 20,
                     inputType: TextInputType.text,
@@ -193,28 +205,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       ],
     );
   }
-
-  Widget _createAccountText() {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: 45,
-          bottom: 15,
-          left: leftRightPaddingValue,
-          right: leftRightPaddingValue),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _getText('Criar'),
-          _getText('Conta'),
-        ],
-      ),
-    );
-  }
-
-  Widget _getText(String content) => Text(
-        content,
-        style: const TextStyle(fontSize: 45),
-      );
 
   Widget _buildSocialNetworksButtons(
       String logoPath, String socialName, void Function() callback) {

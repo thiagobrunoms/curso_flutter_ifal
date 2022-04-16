@@ -8,6 +8,7 @@ import 'package:curso_ifal_flutter/signin_signup/domain/usecases/google_signup_u
 import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mobx/mobx.dart';
+
 part 'signup_controller.g.dart';
 
 class SignUpController = _SignUpControllerBase with _$SignUpController;

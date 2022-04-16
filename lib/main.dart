@@ -1,6 +1,7 @@
 import 'package:curso_ifal_flutter/application/pages/main_page.dart';
 import 'package:curso_ifal_flutter/get-started/onboarding-screen-page.dart';
-import 'package:curso_ifal_flutter/signin_signup/signup_page.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/pages/form_based_verification_code_page.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signup_page.dart';
 
 import 'package:curso_ifal_flutter/state_management_tests/streams_page.dart';
 import 'package:curso_ifal_flutter/state_management_tests/streams_page_mobx.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: mainMaterialColor,
           primaryColor: mainMaterialColor),
       home:
-          SignUpWidget(), //StreamPageMobx(), //MainPage() //StreamPage(), //OnBoardingPage(),
+          FormBasedVerificationCodePage(), //SignUpWidget(), //StreamPageMobx(), //MainPage() //StreamPage(), //OnBoardingPage(),
       routes: {
         '/toSignUpPage': (BuildContext context) => SignUpPage(),
       },
