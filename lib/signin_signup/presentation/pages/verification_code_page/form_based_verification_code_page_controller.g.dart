@@ -81,6 +81,41 @@ mixin _$FormBasedVerificationCodePageController
     });
   }
 
+  final _$verifiyCodeResultAtom = Atom(
+      name: '_FormBasedVerificationCodePageControllerBase.verifiyCodeResult');
+
+  @override
+  Either<Failure, bool>? get verifiyCodeResult {
+    _$verifiyCodeResultAtom.reportRead();
+    return super.verifiyCodeResult;
+  }
+
+  @override
+  set verifiyCodeResult(Either<Failure, bool>? value) {
+    _$verifiyCodeResultAtom.reportWrite(value, super.verifiyCodeResult, () {
+      super.verifiyCodeResult = value;
+    });
+  }
+
+  final _$sendVerificationCodeObsFutureAtom = Atom(
+      name:
+          '_FormBasedVerificationCodePageControllerBase.sendVerificationCodeObsFuture');
+
+  @override
+  ObservableFuture<Either<Failure, bool>>? get sendVerificationCodeObsFuture {
+    _$sendVerificationCodeObsFutureAtom.reportRead();
+    return super.sendVerificationCodeObsFuture;
+  }
+
+  @override
+  set sendVerificationCodeObsFuture(
+      ObservableFuture<Either<Failure, bool>>? value) {
+    _$sendVerificationCodeObsFutureAtom
+        .reportWrite(value, super.sendVerificationCodeObsFuture, () {
+      super.sendVerificationCodeObsFuture = value;
+    });
+  }
+
   final _$_FormBasedVerificationCodePageControllerBaseActionController =
       ActionController(name: '_FormBasedVerificationCodePageControllerBase');
 
@@ -147,6 +182,8 @@ field1: ${field1},
 field2: ${field2},
 field3: ${field3},
 field4: ${field4},
+verifiyCodeResult: ${verifiyCodeResult},
+sendVerificationCodeObsFuture: ${sendVerificationCodeObsFuture},
 isValid: ${isValid}
     ''';
   }

@@ -1,7 +1,6 @@
 import 'package:curso_ifal_flutter/application/pages/main_page.dart';
 import 'package:curso_ifal_flutter/get-started/onboarding-screen-page.dart';
-import 'package:curso_ifal_flutter/signin_signup/presentation/pages/form_based_verification_code_page.dart';
-import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signup_page.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/pages/verification_code_page/form_based_verification_code_page.dart';
 
 import 'package:curso_ifal_flutter/state_management_tests/streams_page.dart';
 import 'package:curso_ifal_flutter/state_management_tests/streams_page_mobx.dart';
