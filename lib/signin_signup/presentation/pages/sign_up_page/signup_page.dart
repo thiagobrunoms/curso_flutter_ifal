@@ -6,6 +6,7 @@ import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/basic_text
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_title_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/social_network/signin_signup_social_network_widget.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -59,8 +60,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       child: Observer(builder: (_) {
         return Container(
           width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.95,
           padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SignInSignUpAppBarWidget(),
@@ -97,6 +100,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 ),
                 onChangedCallback: controller.setPassword,
               ),
+              const SizedBox(height: 30),
               Observer(
                 builder: (_) {
                   if (controller.requestSignUpObsFuture?.status ==
@@ -110,25 +114,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 },
               ),
               _buildHasAccountMessage(),
-              const SizedBox(height: 30),
-              _buildContinueMessage(),
               const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: _buildSocialNetworksButtons(
-                        'assets/images/google.png', 'Google', () async {
-                      controller.setSignUpStrategy(GoogleSignUpDatasource());
-                      controller.googleSignUp();
-                    }),
-                  ),
-                  Expanded(
-                    child: _buildSocialNetworksButtons(
-                        'assets/images/facebook.png', 'Facebook', () {}),
-                  ),
-                ],
-              ),
+              const SignInSignUpSocialNetworkWidget(),
             ],
           ),
         );
@@ -138,10 +125,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   Widget _buildSignUpButton() {
     return Center(
-      child: Container(
-        padding: const EdgeInsets.only(top: 20, left: 13, right: 13),
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.10,
+        height: MediaQuery.of(context).size.height * 0.08,
         child: DefaultButton(
             color: Theme.of(context).primaryColor,
             widget: const Text(
@@ -168,68 +154,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         Text('Já possui uma conta?'),
         TextButton(onPressed: () {}, child: Text('Login'))
       ],
-    );
-  }
-
-  Widget _buildContinueMessage() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(
-          flex: 1,
-          child: Divider(
-            height: 10,
-            color: Colors.black,
-          ),
-        ),
-        Flexible(
-          flex: 2,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 5.0,
-              right: 5.0,
-            ),
-            child: Text('Ou continuar com'),
-          ),
-        ),
-        Flexible(
-          flex: 1,
-          child: Divider(
-            height: 10,
-            color: Colors.black,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialNetworksButtons(
-      String logoPath, String socialName, void Function() callback) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15.0, right: 15),
-      child: DefaultButton.socialNetworks(
-        callback: callback,
-        widget: Padding(
-          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Flexible(
-                flex: 1,
-                child: Image.asset(
-                  logoPath,
-                  width: 20,
-                  height: 20,
-                ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Text(socialName),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

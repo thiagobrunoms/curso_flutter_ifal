@@ -104,12 +104,4 @@ abstract class _SignUpControllerBase with Store {
       errorMessage = failure.errorMessage;
     }, (userEntity) => print(userEntity));
   }
-
-  Future<void> googleSignUp() async {
-    GoogleSignupUsecase usecase = GoogleSignupUsecase(repository: repository);
-
-    var response = await usecase(param: signUpEntity);
-    response.fold(
-        (failure) => print(failure), (userEntity) => print(userEntity));
-  }
 }

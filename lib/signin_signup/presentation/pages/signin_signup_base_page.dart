@@ -11,6 +11,7 @@ class SignInSignUpBasePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(
+              top: 5.0,
               left: 17.0,
               right: 17.0,
             ),
