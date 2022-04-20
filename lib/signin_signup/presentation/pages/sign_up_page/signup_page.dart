@@ -1,10 +1,11 @@
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/google_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/sign_up_page/signup_controller.dart';
-import 'package:curso_ifal_flutter/signin_signup/presentation/widets/basic_text_form_field_widget.dart';
-import 'package:curso_ifal_flutter/signin_signup/presentation/widets/default_button_widget.dart';
-import 'package:curso_ifal_flutter/signin_signup/presentation/widets/signin_signup_app_bar_widget.dart';
-import 'package:curso_ifal_flutter/signin_signup/presentation/widets/signin_signup_title_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signin_signup_base_page.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/basic_text_form_field_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_button_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_title_widget.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -54,89 +55,84 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Observer(builder: (_) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SignInSignUpAppBarWidget(),
-                  const SignInSignUpTitleWidget(titleList: ['Criar', 'Conta']),
-                  BasicTextFormField(
-                    width: formWidth,
-                    label: 'Nome',
-                    maxLength: 50,
-                    errorText: controller.nameErrorMessage,
-                    onChangedCallback: controller.setName,
-                  ),
-                  BasicTextFormField(
-                    width: formWidth,
-                    label: 'Email',
-                    maxLength: 50,
-                    inputType: TextInputType.emailAddress,
-                    errorText: controller.emailErrorMessage,
-                    onChangedCallback: controller.setEmail,
-                  ),
-                  BasicTextFormField(
-                    width: formWidth,
-                    label: 'Senha',
-                    maxLength: 20,
-                    inputType: TextInputType.text,
-                    errorText: controller.passwordErrorMessage,
-                    obscureText: controller.isVisible ? false : true,
-                    icon: IconButton(
-                      onPressed: () {
-                        controller.changeIsVisible(!controller.isVisible);
-                      },
-                      icon: controller.isVisible
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off),
-                    ),
-                    onChangedCallback: controller.setPassword,
-                  ),
-                  Observer(
-                    builder: (_) {
-                      if (controller.requestSignUpObsFuture?.status ==
-                          FutureStatus.pending) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+    return SignInSignUpBasePage(
+      child: Observer(builder: (_) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SignInSignUpAppBarWidget(),
+              const SignInSignUpTitleWidget(titleList: ['Criar', 'Conta']),
+              BasicTextFormField(
+                width: formWidth,
+                label: 'Nome',
+                maxLength: 50,
+                errorText: controller.nameErrorMessage,
+                onChangedCallback: controller.setName,
+              ),
+              BasicTextFormField(
+                width: formWidth,
+                label: 'Email',
+                maxLength: 50,
+                inputType: TextInputType.emailAddress,
+                errorText: controller.emailErrorMessage,
+                onChangedCallback: controller.setEmail,
+              ),
+              BasicTextFormField(
+                width: formWidth,
+                label: 'Senha',
+                maxLength: 20,
+                inputType: TextInputType.text,
+                errorText: controller.passwordErrorMessage,
+                obscureText: controller.isVisible ? false : true,
+                icon: IconButton(
+                  onPressed: () {
+                    controller.changeIsVisible(!controller.isVisible);
+                  },
+                  icon: controller.isVisible
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
+                ),
+                onChangedCallback: controller.setPassword,
+              ),
+              Observer(
+                builder: (_) {
+                  if (controller.requestSignUpObsFuture?.status ==
+                      FutureStatus.pending) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                      return _buildSignUpButton();
-                    },
+                  return _buildSignUpButton();
+                },
+              ),
+              _buildHasAccountMessage(),
+              const SizedBox(height: 30),
+              _buildContinueMessage(),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: _buildSocialNetworksButtons(
+                        'assets/images/google.png', 'Google', () async {
+                      controller.setSignUpStrategy(GoogleSignUpDatasource());
+                      controller.googleSignUp();
+                    }),
                   ),
-                  _buildHasAccountMessage(),
-                  const SizedBox(height: 30),
-                  _buildContinueMessage(),
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: _buildSocialNetworksButtons(
-                            'assets/images/google.png', 'Google', () async {
-                          controller
-                              .setSignUpStrategy(GoogleSignUpDatasource());
-                          controller.googleSignUp();
-                        }),
-                      ),
-                      Expanded(
-                        child: _buildSocialNetworksButtons(
-                            'assets/images/facebook.png', 'Facebook', () {}),
-                      ),
-                    ],
+                  Expanded(
+                    child: _buildSocialNetworksButtons(
+                        'assets/images/facebook.png', 'Facebook', () {}),
                   ),
                 ],
               ),
-            );
-          }),
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 

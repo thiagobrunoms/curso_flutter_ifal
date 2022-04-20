@@ -1,4 +1,6 @@
-import 'package:curso_ifal_flutter/signin_signup/presentation/widets/default_button_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/pages/sign_up_page/signup_page.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_button_widget.dart';
 import 'package:flutter/material.dart';
 
 class SignInSignUpGetStartedPage extends StatelessWidget {
@@ -37,7 +39,7 @@ class SignInSignUpGetStartedPage extends StatelessWidget {
                       widget: const Text("Criar Conta",
                           style: TextStyle(color: Colors.white)),
                       callback: () {
-                        print("Ir para tela de criar conta");
+                        Navigator.pushNamed(context, toSignUpPage);
                       },
                     ),
                   ),
@@ -47,7 +49,7 @@ class SignInSignUpGetStartedPage extends StatelessWidget {
                     height: height * 0.07,
                     child: DefaultButton(
                       color: Colors.white,
-                      widget: Text("Criar Conta",
+                      widget: Text("Fazer Login",
                           style:
                               TextStyle(color: Theme.of(context).primaryColor)),
                       callback: () {

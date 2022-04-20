@@ -11,6 +11,7 @@ class BasicTextFormField extends StatelessWidget {
   final double width;
   final FocusNode? focusNode;
   final FocusNode? nextFocusNode;
+  final TextAlign? textAlign;
   final void Function(String)? onChangedCallback;
 
   const BasicTextFormField({
@@ -26,6 +27,7 @@ class BasicTextFormField extends StatelessWidget {
     required this.width,
     this.focusNode,
     this.nextFocusNode,
+    this.textAlign,
   }) : super(key: key);
 
   @override
@@ -33,12 +35,13 @@ class BasicTextFormField extends StatelessWidget {
     return SizedBox(
       width: width,
       child: Padding(
-        padding: const EdgeInsets.only(left: 13.0, right: 13.0, top: 8),
+        padding: const EdgeInsets.only(top: 8),
         child: TextFormField(
           obscureText: obscureText,
           maxLength: maxLength,
           keyboardType: inputType,
           focusNode: focusNode,
+          textAlign: textAlign ?? TextAlign.left,
           decoration: InputDecoration(
             labelText: label,
             hintText: hintText,
