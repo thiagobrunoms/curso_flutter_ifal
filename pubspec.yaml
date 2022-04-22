@@ -31,8 +31,8 @@ dependencies:
     sdk: flutter
   intl: ^0.17.0
   equatable: ^2.0.3
-  mobx: ^2.0.6+1
-  flutter_mobx: ^2.0.4
+  mobx: ^2.0.7
+  flutter_mobx: ^2.0.5
   http: ^0.13.4
   dio: ^4.0.4
   google_sign_in: ^5.2.4

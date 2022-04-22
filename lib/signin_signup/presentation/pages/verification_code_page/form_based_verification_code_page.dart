@@ -1,8 +1,10 @@
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/failures/failure.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signin_signup_base_page.dart';
 
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/verification_code_page/form_based_verification_code_page_controller.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/basic_text_form_field_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
@@ -15,7 +17,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 class FormBasedVerificationCodePage extends StatefulWidget {
-  final String email = 'thiagobrunoms@gmail.com';
   const FormBasedVerificationCodePage({Key? key}) : super(key: key);
 
   @override
@@ -25,6 +26,7 @@ class FormBasedVerificationCodePage extends StatefulWidget {
 
 class _FormBasedVerificationCodePageState
     extends State<FormBasedVerificationCodePage> {
+  late UserEntity userEntity;
   FormBasedVerificationCodePageController? controller;
   final FocusNode focusNodeField2 = FocusNode();
   final FocusNode focusNodeField3 = FocusNode();
@@ -34,11 +36,18 @@ class _FormBasedVerificationCodePageState
   @override
   void initState() {
     controller = FormBasedVerificationCodePageController();
-    controller?.setEmail = widget.email;
     controller?.setDatasource(RestSignUpDatasource(Dio()));
 
     reaction((_) => controller?.verifiyCodeResult, handleVerifyCodeResult);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    userEntity = ModalRoute.of(context)?.settings.arguments as UserEntity;
+    controller?.setUserEntity = userEntity;
   }
 
   @override
@@ -54,8 +63,8 @@ class _FormBasedVerificationCodePageState
   void handleVerifyCodeResult(dartz.Either<Failure, bool>? result) {
     result?.fold(
         (l) => showResultDialog('Falha', l.errorMessage, 'Repetir'),
-        (r) =>
-            showResultDialog('Sucerro', 'Código verificado com sucesso', 'Ok'));
+        (r) => Navigator.pushReplacementNamed(context, toMainPage,
+            arguments: userEntity));
   }
 
   void showResultDialog(String title, String content, String action) {
@@ -91,7 +100,7 @@ class _FormBasedVerificationCodePageState
           const SignInSignUpTitleWidget(titleList: ['Verificar', 'Código']),
           const SizedBox(height: 40),
           Text(
-            'Um código foi enviado para ${widget.email}',
+            'Um código foi enviado para ${userEntity.email}',
             style: TextStyle(color: Colors.grey, fontSize: 20),
           ),
           SizedBox(height: 40),

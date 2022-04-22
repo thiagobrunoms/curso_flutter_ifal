@@ -53,7 +53,7 @@ class SignInSignUpGetStartedPage extends StatelessWidget {
                           style:
                               TextStyle(color: Theme.of(context).primaryColor)),
                       callback: () {
-                        print("Ir para tela de login");
+                        Navigator.pushNamed(context, toSigninPage);
                       },
                     ),
                   )

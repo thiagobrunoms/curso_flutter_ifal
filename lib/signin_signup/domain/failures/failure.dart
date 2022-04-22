@@ -23,3 +23,8 @@ class VerificationCodeNotMatch extends Failure {
   VerificationCodeNotMatch({required String errorMessage})
       : super(errorMessage: errorMessage);
 }
+
+class UserCredentialsNotMatch extends Failure {
+  UserCredentialsNotMatch({required String errorMessage})
+      : super(errorMessage: errorMessage);
+}

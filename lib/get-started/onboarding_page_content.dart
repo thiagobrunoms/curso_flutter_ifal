@@ -1,4 +1,5 @@
 import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
 
 import 'package:flutter/material.dart';
 
@@ -119,8 +120,6 @@ class OnboardingPageContent extends StatelessWidget {
   }
 
   void skip(BuildContext context) {
-    // Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => SignInSingUpPage()));
-    Navigator.pushNamed(context, '/toSignUpPage');
+    Navigator.pushReplacementNamed(context, toGetStarted);
   }
 }

@@ -116,6 +116,24 @@ mixin _$FormBasedVerificationCodePageController
     });
   }
 
+  final _$codeVerificationErrorMessageAtom = Atom(
+      name:
+          '_FormBasedVerificationCodePageControllerBase.codeVerificationErrorMessage');
+
+  @override
+  String? get codeVerificationErrorMessage {
+    _$codeVerificationErrorMessageAtom.reportRead();
+    return super.codeVerificationErrorMessage;
+  }
+
+  @override
+  set codeVerificationErrorMessage(String? value) {
+    _$codeVerificationErrorMessageAtom
+        .reportWrite(value, super.codeVerificationErrorMessage, () {
+      super.codeVerificationErrorMessage = value;
+    });
+  }
+
   final _$_FormBasedVerificationCodePageControllerBaseActionController =
       ActionController(name: '_FormBasedVerificationCodePageControllerBase');
 
@@ -184,6 +202,7 @@ field3: ${field3},
 field4: ${field4},
 verifiyCodeResult: ${verifiyCodeResult},
 sendVerificationCodeObsFuture: ${sendVerificationCodeObsFuture},
+codeVerificationErrorMessage: ${codeVerificationErrorMessage},
 isValid: ${isValid}
     ''';
   }

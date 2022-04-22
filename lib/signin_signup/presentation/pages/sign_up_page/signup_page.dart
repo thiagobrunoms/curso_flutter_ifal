@@ -1,7 +1,9 @@
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/google_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/sign_up_page/signup_controller.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signin_signup_base_page.dart';
+import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/basic_text_form_field_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
@@ -23,6 +25,7 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget> {
   double formWidth = 0;
   late ReactionDisposer errorDisposer;
+  late ReactionDisposer successDisposer;
   double leftRightPaddingValue = 20.0;
   late SignUpController controller;
 
@@ -33,6 +36,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     controller = SignUpController();
     errorDisposer =
         reaction((_) => controller.errorMessage, signUpErrorHandler);
+    errorDisposer = successDisposer =
+        reaction((_) => controller.userEntity, signUpSuccessHandler);
   }
 
   @override
@@ -52,6 +57,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message!),
     ));
+  }
+
+  void signUpSuccessHandler(UserEntity? userEntity) {
+    Navigator.pushNamed(context, toVerificationCode, arguments: userEntity);
   }
 
   @override

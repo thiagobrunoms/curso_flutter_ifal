@@ -152,6 +152,21 @@ mixin _$SignUpController on _SignUpControllerBase, Store {
     });
   }
 
+  final _$userEntityAtom = Atom(name: '_SignUpControllerBase.userEntity');
+
+  @override
+  UserEntity? get userEntity {
+    _$userEntityAtom.reportRead();
+    return super.userEntity;
+  }
+
+  @override
+  set userEntity(UserEntity? value) {
+    _$userEntityAtom.reportWrite(value, super.userEntity, () {
+      super.userEntity = value;
+    });
+  }
+
   final _$_SignUpControllerBaseActionController =
       ActionController(name: '_SignUpControllerBase');
 
@@ -208,6 +223,7 @@ password: ${password},
 isVisible: ${isVisible},
 requestSignUpObsFuture: ${requestSignUpObsFuture},
 errorMessage: ${errorMessage},
+userEntity: ${userEntity},
 isValidName: ${isValidName},
 isValidEmail: ${isValidEmail},
 isValidPassword: ${isValidPassword},

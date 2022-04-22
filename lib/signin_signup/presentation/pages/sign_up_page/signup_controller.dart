@@ -56,6 +56,9 @@ abstract class _SignUpControllerBase with Store {
     this.isVisible = isVisible;
   }
 
+  @observable
+  UserEntity? userEntity;
+
   @computed
   bool get isValidName => name == null || (name != null && name!.length > 5);
 
@@ -102,6 +105,6 @@ abstract class _SignUpControllerBase with Store {
     response!.fold((failure) {
       errorMessage = null;
       errorMessage = failure.errorMessage;
-    }, (userEntity) => print(userEntity));
+    }, (userEntity) => this.userEntity = userEntity);
   }
 }

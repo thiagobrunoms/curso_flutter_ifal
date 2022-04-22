@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:curso_ifal_flutter/signin_signup/data/datasources/signin_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/verification_code_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/models/user_model.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/failures/failure.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/signin_entity.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/signup_entity.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/usecases/verification_code_usecase.dart';
 import 'package:dartz/dartz.dart';
@@ -11,6 +13,7 @@ import 'package:dio/dio.dart';
 class RestSignUpDatasource
     implements
         SignUpDatasource,
+        SignInDatasource,
         VerificationCodeDatasource<Either<Failure, bool>,
             VerificationCodeParam> {
   final String baseUrl = "http://10.0.2.2:3000";
@@ -45,9 +48,29 @@ class RestSignUpDatasource
 
       return right(true);
     } on DioError catch (e) {
-      print(e.response);
       return left(
           VerificationCodeNotMatch(errorMessage: e.response?.data['message']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> signIn(
+      {required SignInEntity entity}) async {
+    try {
+      String? email = entity.email.value.fold((l) => null, (r) => r);
+      String? password = entity.password.value.fold((l) => null, (r) => r);
+
+      var response = await dio.post(
+        '$baseUrl/signin',
+        data: json.encode(
+          {'email': email, 'password': password},
+        ),
+      );
+
+      return right(UserModel.fromMap(response.data));
+    } on DioError catch (e) {
+      return left(
+          UserCredentialsNotMatch(errorMessage: e.response?.data['message']));
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:curso_ifal_flutter/signin_signup/domain/failures/failure.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/repositories/code_verification_repository.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/usecases/form_based_verification_code_usecase.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/usecases/verification_code_usecase.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mobx/mobx.dart';
 part 'form_based_verification_code_page_controller.g.dart';
@@ -26,9 +27,9 @@ abstract class _FormBasedVerificationCodePageControllerBase with Store {
   @observable
   String? field4;
 
-  String? email;
+  UserEntity? userEntity;
 
-  set setEmail(String? email) => this.email = email;
+  set setUserEntity(UserEntity? userEntity) => this.userEntity = userEntity;
 
   @action
   void setField1(String field1) => this.field1 = field1;
@@ -47,6 +48,9 @@ abstract class _FormBasedVerificationCodePageControllerBase with Store {
 
   @observable
   ObservableFuture<Either<Failure, bool>>? sendVerificationCodeObsFuture;
+
+  @observable
+  String? codeVerificationErrorMessage;
 
   @computed
   bool get isValid =>
@@ -70,12 +74,9 @@ abstract class _FormBasedVerificationCodePageControllerBase with Store {
     VerificationCodeUsecase usecase = FormBasedVerificationCodeUsecase(
         repository: verificationCodeRepository);
 
-    sendVerificationCodeObsFuture = ObservableFuture(
-        usecase(param: VerificationCodeParam(code: code, email: email!)));
+    sendVerificationCodeObsFuture = ObservableFuture(usecase(
+        param: VerificationCodeParam(code: code, email: userEntity!.email)));
 
     verifiyCodeResult = await sendVerificationCodeObsFuture;
-
-    // response?.fold((failure) => print('falha! $failure'),
-    //     (result) => print('resultado $result'));
   }
 }
