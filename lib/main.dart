@@ -1,3 +1,4 @@
+import 'package:curso_ifal_flutter/app_module.dart';
 import 'package:curso_ifal_flutter/get-started/onboarding-screen-page.dart';
 import 'package:curso_ifal_flutter/main/main_page.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/get_started/signin_signup_get_started_page.dart';
@@ -15,9 +16,11 @@ import 'package:curso_ifal_flutter/tentativas/sigin_signup/presentation/signup_p
 import 'package:curso_ifal_flutter/tentativas/sigin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ModularApp(module: AppModule(), child: MyApp()));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Dentistas',
       theme: ThemeData(
@@ -33,15 +36,17 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Euclid',
           primarySwatch: mainMaterialColor,
           primaryColor: mainMaterialColor),
-      routes: {
-        "/": (BuildContext context) => OnBoardingPage(),
-        toSignUpPage: (BuildContext context) => SignUpWidget(),
-        toSigninPage: (BuildContext context) => SignInWidget(),
-        toMainPage: (BuildContext context) => MainPage(),
-        toGetStarted: (BuildContext context) => SignInSignUpGetStartedPage(),
-        toVerificationCode: (BuildContext context) =>
-            FormBasedVerificationCodePage()
-      },
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
+      // routes: {
+      //   "/": (BuildContext context) => OnBoardingPage(),
+      //   toSignUpPage: (BuildContext context) => SignUpWidget(),
+      //   toSigninPage: (BuildContext context) => SignInWidget(),
+      //   toMainPage: (BuildContext context) => MainPage(),
+      //   toGetStarted: (BuildContext context) => SignInSignUpGetStartedPage(),
+      //   toVerificationCode: (BuildContext context) =>
+      //       FormBasedVerificationCodePage()
+      // },
     );
   }
 }

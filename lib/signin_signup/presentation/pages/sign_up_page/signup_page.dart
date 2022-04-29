@@ -9,10 +9,12 @@ import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_bu
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_title_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/social_network/signin_signup_social_network_widget.dart';
+import 'package:curso_ifal_flutter/signin_signup/sign_in_sign_up_module.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -33,7 +35,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   void initState() {
     super.initState();
 
-    controller = SignUpController();
+    controller = Modular.get<SignUpController>();
     errorDisposer =
         reaction((_) => controller.errorMessage, signUpErrorHandler);
     errorDisposer = successDisposer =
@@ -60,7 +62,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   }
 
   void signUpSuccessHandler(UserEntity? userEntity) {
-    Navigator.pushNamed(context, toVerificationCode, arguments: userEntity);
+    // Navigator.pushNamed(context, toVerificationCode, arguments: userEntity);
+    print('userEntity $userEntity');
+    Modular.to.pushNamed(toVerificationCode, arguments: userEntity);
   }
 
   @override
@@ -148,7 +152,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             ),
             callback: controller.isFormValid
                 ? () async {
-                    controller.setSignUpStrategy(RestSignUpDatasource(Dio()));
                     await controller.signUp();
                   }
                 : null),

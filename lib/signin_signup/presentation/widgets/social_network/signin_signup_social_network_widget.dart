@@ -2,6 +2,7 @@ import 'package:curso_ifal_flutter/signin_signup/data/datasources/google_signup_
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/social_network/signin_signup_social_network_widget_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class SignInSignUpSocialNetworkWidget extends StatefulWidget {
   const SignInSignUpSocialNetworkWidget({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _SignInSignUpSocialNetworkWidgetState
   void initState() {
     super.initState();
 
-    controller = SignInSignUpSocialNetworkWidgetController();
+    controller = Modular.get<SignInSignUpSocialNetworkWidgetController>();
   }
 
   @override
@@ -34,7 +35,6 @@ class _SignInSignUpSocialNetworkWidgetState
             Expanded(
               child: _buildSocialNetworksButtons(
                   'assets/images/google.png', 'Google', () async {
-                controller?.setSignUpStrategy(GoogleSignUpDatasource());
                 controller?.googleSignUp();
               }),
             ),

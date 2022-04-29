@@ -1,5 +1,6 @@
 import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class SignInSignUpAppBarWidget extends StatelessWidget {
   const SignInSignUpAppBarWidget({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class SignInSignUpAppBarWidget extends StatelessWidget {
       children: [
         TopBarBackButtonWidget(
           onTabCallback: () {
-            Navigator.pop(context);
+            Modular.to.pop();
           },
         ),
         Text(

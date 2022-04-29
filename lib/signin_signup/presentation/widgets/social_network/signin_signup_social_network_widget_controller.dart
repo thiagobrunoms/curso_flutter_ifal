@@ -9,15 +9,10 @@ class SignInSignUpSocialNetworkWidgetController = _SignInSignUpSocialNetworkWidg
     with _$SignInSignUpSocialNetworkWidgetController;
 
 abstract class _SignInSignUpSocialNetworkWidgetControllerBase with Store {
-  late SignInSignUpRepository repository;
-
-  void setSignUpStrategy(SignUpDatasource datasource) {
-    repository = SignInSignUpRepositoryImpl(signUpDatasource: datasource);
-  }
+  GoogleSignupUsecase usecase;
+  _SignInSignUpSocialNetworkWidgetControllerBase({required this.usecase});
 
   Future<void> googleSignUp() async {
-    GoogleSignupUsecase usecase = GoogleSignupUsecase(repository: repository);
-
     var response = await usecase();
     response.fold(
         (failure) => print(failure), (userEntity) => print(userEntity));

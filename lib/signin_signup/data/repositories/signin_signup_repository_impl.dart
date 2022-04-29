@@ -15,21 +15,21 @@ class SignInSignUpRepositoryImpl
         SignInSignUpRepository,
         VerificationCodeRepository<Either<Failure, bool>,
             VerificationCodeParam> {
-  SignUpDatasource? signUpDatasource;
-  SignInDatasource? signInDatasource;
-  VerificationCodeDatasource? verificationCodeDatasource;
+  SignUpDatasource signUpDatasource;
+  SignInDatasource signInDatasource;
+  VerificationCodeDatasource verificationCodeDatasource;
 
   SignInSignUpRepositoryImpl(
-      {this.signUpDatasource,
-      this.verificationCodeDatasource,
-      this.signInDatasource});
+      {required this.signUpDatasource,
+      required this.verificationCodeDatasource,
+      required this.signInDatasource});
 
   @override
   Future<Either<Failure, UserEntity>> signUp(
       {SignUpEntity? signUpEntity}) async {
-    var response = await signUpDatasource?.signUp(entity: signUpEntity);
+    var response = await signUpDatasource.signUp(entity: signUpEntity);
 
-    return response!.fold(
+    return response.fold(
         (failure) => left(failure),
         (userEntity) => right(UserEntity(
             id: userEntity.id,
@@ -41,15 +41,15 @@ class SignInSignUpRepositoryImpl
   @override
   Future<Either<Failure, bool>> verifyCode(
       {required VerificationCodeParam param}) async {
-    return await verificationCodeDatasource?.verifyCode(param: param);
+    return await verificationCodeDatasource.verifyCode(param: param);
   }
 
   @override
   Future<Either<Failure, UserEntity>> signIn(
       {required SignInEntity signInEntity}) async {
-    var response = await signInDatasource?.signIn(entity: signInEntity);
+    var response = await signInDatasource.signIn(entity: signInEntity);
 
-    return response!.fold(
+    return response.fold(
         (failure) => left(failure),
         (userEntity) => right(UserEntity(
             id: userEntity.id,

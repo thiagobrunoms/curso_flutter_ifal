@@ -14,10 +14,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 class FormBasedVerificationCodePage extends StatefulWidget {
-  const FormBasedVerificationCodePage({Key? key}) : super(key: key);
+  final UserEntity userEntity;
+  const FormBasedVerificationCodePage({Key? key, required this.userEntity})
+      : super(key: key);
 
   @override
   State<FormBasedVerificationCodePage> createState() =>
@@ -26,7 +29,6 @@ class FormBasedVerificationCodePage extends StatefulWidget {
 
 class _FormBasedVerificationCodePageState
     extends State<FormBasedVerificationCodePage> {
-  late UserEntity userEntity;
   FormBasedVerificationCodePageController? controller;
   final FocusNode focusNodeField2 = FocusNode();
   final FocusNode focusNodeField3 = FocusNode();
@@ -35,19 +37,13 @@ class _FormBasedVerificationCodePageState
 
   @override
   void initState() {
-    controller = FormBasedVerificationCodePageController();
-    controller?.setDatasource(RestSignUpDatasource(Dio()));
-
-    reaction((_) => controller?.verifiyCodeResult, handleVerifyCodeResult);
     super.initState();
-  }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+    controller = Modular.get<FormBasedVerificationCodePageController>();
+    controller?.setUserEntity = widget.userEntity;
 
-    userEntity = ModalRoute.of(context)?.settings.arguments as UserEntity;
-    controller?.setUserEntity = userEntity;
+    verifyCodeResultDisposer =
+        reaction((_) => controller?.verifiyCodeResult, handleVerifyCodeResult);
   }
 
   @override
@@ -61,10 +57,12 @@ class _FormBasedVerificationCodePageState
   }
 
   void handleVerifyCodeResult(dartz.Either<Failure, bool>? result) {
-    result?.fold(
-        (l) => showResultDialog('Falha', l.errorMessage, 'Repetir'),
-        (r) => Navigator.pushReplacementNamed(context, toMainPage,
-            arguments: userEntity));
+    // result?.fold(
+    //     (l) => showResultDialog('Falha', l.errorMessage, 'Repetir'),
+    //     (r) => Navigator.pushReplacementNamed(context, toMainPage,
+    //         arguments: widget.userEntity));
+    result?.fold((l) => showResultDialog('Falha', l.errorMessage, 'Repetir'),
+        (r) => Modular.to.navigate(toMainPage, arguments: widget.userEntity));
   }
 
   void showResultDialog(String title, String content, String action) {
@@ -100,7 +98,7 @@ class _FormBasedVerificationCodePageState
           const SignInSignUpTitleWidget(titleList: ['Verificar', 'Código']),
           const SizedBox(height: 40),
           Text(
-            'Um código foi enviado para ${userEntity.email}',
+            'Um código foi enviado para ${widget.userEntity.email}',
             style: TextStyle(color: Colors.grey, fontSize: 20),
           ),
           SizedBox(height: 40),

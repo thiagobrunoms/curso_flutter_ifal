@@ -11,6 +11,7 @@ import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/social_net
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 class SignInWidget extends StatefulWidget {
@@ -29,8 +30,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   void initState() {
     super.initState();
 
-    controller = SignInWidgetController();
-    controller?.setDataSource(RestSignUpDatasource(Dio()));
+    controller = Modular.get<SignInWidgetController>();
     singInErrorMessageDisposer = reaction(
         (_) => controller?.signInErrorMessage, handleSignInErrorMessage);
 
@@ -50,7 +50,8 @@ class _SignInWidgetState extends State<SignInWidget> {
   }
 
   void handleSignInSuccess(UserEntity? userEntity) {
-    Navigator.pushNamed(context, toMainPage, arguments: userEntity);
+    // Navigator.pushNamed(context, toMainPage, arguments: userEntity);
+    Modular.to.navigate(toMainPage, arguments: userEntity);
   }
 
   @override
