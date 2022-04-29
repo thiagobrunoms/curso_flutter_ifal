@@ -24,7 +24,6 @@ class SignInSignUpModule extends Module {
   @override
   List<Bind> get binds => [
         Bind.singleton((i) => RestSignUpDatasource(i.get())),
-        Bind.singleton((i) => GoogleSignUpDatasource()),
         Bind.singleton((i) => SignInSignUpRepositoryImpl(
             signUpDatasource: i.get(),
             signInDatasource: i.get(),
@@ -35,7 +34,9 @@ class SignInSignUpModule extends Module {
             (i) => FormBasedVerificationCodeUsecase(repository: i.get())),
         Bind.singleton(
             (i) => FormBasedVerificationCodePageController(usecase: i.get())),
-        Bind.singleton((i) => GoogleSignupUsecase(repository: i.get())),
+        Bind.singleton((i) => GoogleSignupUsecase(
+            repository: SignInSignUpRepositoryImpl(
+                signUpDatasource: GoogleSignUpDatasource()))),
         Bind.singleton(
             (i) => SignInSignUpSocialNetworkWidgetController(usecase: i.get())),
         Bind.singleton((i) => SignInWidgetController(usecase: i.get())),

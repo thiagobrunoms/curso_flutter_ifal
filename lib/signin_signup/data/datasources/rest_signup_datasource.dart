@@ -16,7 +16,6 @@ class RestSignUpDatasource
         SignInDatasource,
         VerificationCodeDatasource<Either<Failure, bool>,
             VerificationCodeParam> {
-  // final String baseUrl = "http://10.0.2.2:3000";
   Dio dio;
   RestSignUpDatasource(this.dio);
 
@@ -48,7 +47,6 @@ class RestSignUpDatasource
 
       return right(true);
     } on DioError catch (e) {
-      print(e);
       return left(
           VerificationCodeNotMatch(errorMessage: e.response?.data['message']));
     }
@@ -57,6 +55,7 @@ class RestSignUpDatasource
   @override
   Future<Either<Failure, UserModel>> signIn(
       {required SignInEntity entity}) async {
+    print(entity);
     try {
       String? email = entity.email.value.fold((l) => null, (r) => r);
       String? password = entity.password.value.fold((l) => null, (r) => r);
@@ -70,6 +69,7 @@ class RestSignUpDatasource
 
       return right(UserModel.fromMap(response.data));
     } on DioError catch (e) {
+      print('error rest signin $e');
       return left(
           UserCredentialsNotMatch(errorMessage: e.response?.data['message']));
     }
