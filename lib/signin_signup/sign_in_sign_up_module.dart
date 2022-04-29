@@ -1,5 +1,6 @@
 import 'package:curso_ifal_flutter/app_module.dart';
 import 'package:curso_ifal_flutter/main/main_module.dart';
+import 'package:curso_ifal_flutter/signin_signup/data/datasources/google_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/data/repositories/signin_signup_repository_impl.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/usecases/form_based_sign_in_usecase.dart';
@@ -23,6 +24,7 @@ class SignInSignUpModule extends Module {
   @override
   List<Bind> get binds => [
         Bind.singleton((i) => RestSignUpDatasource(i.get())),
+        Bind.singleton((i) => GoogleSignUpDatasource()),
         Bind.singleton((i) => SignInSignUpRepositoryImpl(
             signUpDatasource: i.get(),
             signInDatasource: i.get(),
