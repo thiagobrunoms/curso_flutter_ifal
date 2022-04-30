@@ -2,6 +2,7 @@ import 'package:curso_ifal_flutter/signin_signup/presentation/pages/sign_up_page
 import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class SignInSignUpGetStartedPage extends StatelessWidget {
   const SignInSignUpGetStartedPage({Key? key}) : super(key: key);
@@ -39,7 +40,8 @@ class SignInSignUpGetStartedPage extends StatelessWidget {
                       widget: const Text("Criar Conta",
                           style: TextStyle(color: Colors.white)),
                       callback: () {
-                        Navigator.pushNamed(context, toSignUpPage);
+                        Modular.to.pushNamed(toSignUpPage);
+                        // Navigator.pushNamed(context, toSignUpPage);
                       },
                     ),
                   ),

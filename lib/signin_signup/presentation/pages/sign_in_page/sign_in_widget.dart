@@ -1,4 +1,3 @@
-import 'package:curso_ifal_flutter/signin_signup/data/datasources/rest_signup_datasource.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/sign_in_page/sign_in_widget_controller.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/signin_signup_base_page.dart';
@@ -8,9 +7,9 @@ import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/default_bu
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/signin_signup_title_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/social_network/signin_signup_social_network_widget.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 class SignInWidget extends StatefulWidget {
@@ -29,8 +28,8 @@ class _SignInWidgetState extends State<SignInWidget> {
   void initState() {
     super.initState();
 
-    controller = SignInWidgetController();
-    controller?.setDataSource(RestSignUpDatasource(Dio()));
+    controller = Modular.get<SignInWidgetController>();
+
     singInErrorMessageDisposer = reaction(
         (_) => controller?.signInErrorMessage, handleSignInErrorMessage);
 

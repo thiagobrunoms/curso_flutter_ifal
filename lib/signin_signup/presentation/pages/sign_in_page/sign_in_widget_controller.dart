@@ -14,7 +14,9 @@ class SignInWidgetController = _SignInWidgetControllerBase
     with _$SignInWidgetController;
 
 abstract class _SignInWidgetControllerBase with Store {
-  late SignInSignUpRepository repository;
+  SignInUsecase usecase;
+
+  _SignInWidgetControllerBase({required this.usecase});
 
   @observable
   String? email;
@@ -64,15 +66,10 @@ abstract class _SignInWidgetControllerBase with Store {
   bool get isFormValid =>
       email != null && isValidEmail && password != null && isValidPassword;
 
-  void setDataSource(SignInDatasource signInDatasource) {
-    repository = SignInSignUpRepositoryImpl(signInDatasource: signInDatasource);
-  }
-
   Future<void> signIn() async {
     UserSignInCredentialParam param =
         UserSignInCredentialParam(email: email!, password: password!);
 
-    SignInUsecase usecase = FormBasedSignInUsecase(repository: repository);
     signInObsFut = ObservableFuture(usecase(param: param));
 
     var response = await signInObsFut;

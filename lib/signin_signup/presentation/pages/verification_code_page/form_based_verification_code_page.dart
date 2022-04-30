@@ -14,6 +14,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 class FormBasedVerificationCodePage extends StatefulWidget {
@@ -35,8 +36,7 @@ class _FormBasedVerificationCodePageState
 
   @override
   void initState() {
-    controller = FormBasedVerificationCodePageController();
-    controller?.setDatasource(RestSignUpDatasource(Dio()));
+    controller = Modular.get<FormBasedVerificationCodePageController>();
 
     reaction((_) => controller?.verifiyCodeResult, handleVerifyCodeResult);
     super.initState();

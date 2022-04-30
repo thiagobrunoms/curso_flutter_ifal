@@ -1,7 +1,9 @@
+import 'package:curso_ifal_flutter/routes.dart';
 import 'package:curso_ifal_flutter/shared/widgets/top_bar_back_button_widget.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class OnboardingPageContent extends StatelessWidget {
   String imagePath;
@@ -120,6 +122,7 @@ class OnboardingPageContent extends StatelessWidget {
   }
 
   void skip(BuildContext context) {
-    Navigator.pushReplacementNamed(context, toGetStarted);
+    // Navigator.pushReplacementNamed(context, toGetStarted);
+    Modular.to.pushReplacementNamed(toGetStarted);
   }
 }

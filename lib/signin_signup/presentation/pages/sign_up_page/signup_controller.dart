@@ -1,10 +1,6 @@
-import 'package:curso_ifal_flutter/signin_signup/data/datasources/signup_datasource.dart';
-import 'package:curso_ifal_flutter/signin_signup/data/repositories/signin_signup_repository_impl.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/failures/failure.dart';
-import 'package:curso_ifal_flutter/signin_signup/domain/repositories/signin_signup_repository.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/signup_entity.dart';
-import 'package:curso_ifal_flutter/signin_signup/domain/usecases/form_signup_usecase.dart';
-import 'package:curso_ifal_flutter/signin_signup/domain/usecases/google_signup_usecase.dart';
+import 'package:curso_ifal_flutter/signin_signup/domain/usecases/signup_usecase.dart';
 import 'package:curso_ifal_flutter/signin_signup/domain/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mobx/mobx.dart';
@@ -14,7 +10,9 @@ part 'signup_controller.g.dart';
 class SignUpController = _SignUpControllerBase with _$SignUpController;
 
 abstract class _SignUpControllerBase with Store {
-  late SignInSignUpRepository repository;
+  SignUpUsecase usecase;
+
+  _SignUpControllerBase({required this.usecase});
 
   late SignUpEntity signUpEntity;
 
@@ -90,15 +88,9 @@ abstract class _SignUpControllerBase with Store {
       isValidEmail &&
       isValidPassword;
 
-  void setSignUpStrategy(SignUpDatasource datasource) {
-    repository = SignInSignUpRepositoryImpl(signUpDatasource: datasource);
-  }
-
   Future<void> signUp() async {
     signUpEntity =
         SignUpEntity(name: name!, email: email!, password: password!);
-
-    FormSignupUsecase usecase = FormSignupUsecase(repository: repository);
 
     requestSignUpObsFuture = ObservableFuture(usecase(param: signUpEntity));
     var response = await requestSignUpObsFuture;

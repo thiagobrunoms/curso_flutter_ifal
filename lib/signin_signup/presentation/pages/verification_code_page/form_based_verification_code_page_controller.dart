@@ -13,7 +13,9 @@ class FormBasedVerificationCodePageController = _FormBasedVerificationCodePageCo
     with _$FormBasedVerificationCodePageController;
 
 abstract class _FormBasedVerificationCodePageControllerBase with Store {
-  VerificationCodeRepository? verificationCodeRepository;
+  VerificationCodeUsecase usecase;
+
+  _FormBasedVerificationCodePageControllerBase({required this.usecase});
 
   @observable
   String? field1;
@@ -63,16 +65,8 @@ abstract class _FormBasedVerificationCodePageControllerBase with Store {
       field4 != null &&
       field4?.length == 1;
 
-  void setDatasource(VerificationCodeDatasource datasource) {
-    verificationCodeRepository =
-        SignInSignUpRepositoryImpl(verificationCodeDatasource: datasource);
-  }
-
   Future<void> sendVerificationCode() async {
     String code = '$field1$field2$field3$field4';
-
-    VerificationCodeUsecase usecase = FormBasedVerificationCodeUsecase(
-        repository: verificationCodeRepository);
 
     sendVerificationCodeObsFuture = ObservableFuture(usecase(
         param: VerificationCodeParam(code: code, email: userEntity!.email)));

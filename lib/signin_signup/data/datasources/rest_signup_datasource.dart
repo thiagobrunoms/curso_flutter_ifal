@@ -16,15 +16,14 @@ class RestSignUpDatasource
         SignInDatasource,
         VerificationCodeDatasource<Either<Failure, bool>,
             VerificationCodeParam> {
-  final String baseUrl = "http://10.0.2.2:3000";
   Dio dio;
-  RestSignUpDatasource(this.dio);
+  RestSignUpDatasource({required this.dio});
 
   @override
   Future<Either<Failure, UserModel>> signUp({SignUpEntity? entity}) async {
     try {
       var response = await dio.post(
-        '$baseUrl/signup',
+        '/signup',
         data: json.encode(
           entity?.toMap(),
         ),
@@ -41,7 +40,7 @@ class RestSignUpDatasource
   Future<Either<Failure, bool>> verifyCode(
       {required VerificationCodeParam param}) async {
     try {
-      var response = await dio.post('$baseUrl/signup/verification',
+      var response = await dio.post('/signup/verification',
           data: json.encode({'code': param.code, 'email': param.email}));
 
       print(response.data);
@@ -61,7 +60,7 @@ class RestSignUpDatasource
       String? password = entity.password.value.fold((l) => null, (r) => r);
 
       var response = await dio.post(
-        '$baseUrl/signin',
+        '/signin',
         data: json.encode(
           {'email': email, 'password': password},
         ),
