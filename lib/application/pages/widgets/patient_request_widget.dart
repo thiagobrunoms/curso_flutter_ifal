@@ -30,7 +30,7 @@ class PatientRequestWidget extends StatelessWidget {
           ),
           Container(
             decoration:
-                const BoxDecoration(color: iconColor, shape: BoxShape.circle),
+                const BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
             child: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Icon(

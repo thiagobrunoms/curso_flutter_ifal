@@ -17,7 +17,6 @@ import 'package:curso_ifal_flutter/signin_signup/presentation/pages/verification
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/verification_code_page/form_based_verification_code_page_controller.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/widgets/social_network/signin_signup_social_network_widget_controller.dart';
-import 'package:curso_ifal_flutter/tentativas/sigin_signup/verification_code_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class SignInSignUpModule extends Module {

@@ -1,5 +1,6 @@
 import 'package:curso_ifal_flutter/app_module.dart';
 import 'package:curso_ifal_flutter/get-started/onboarding-screen-page.dart';
+import 'package:curso_ifal_flutter/layout/colors.dart';
 import 'package:curso_ifal_flutter/main/main_page.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/get_started/signin_signup_get_started_page.dart';
 import 'package:curso_ifal_flutter/signin_signup/presentation/pages/sign_in_page/sign_in_widget.dart';
@@ -9,11 +10,6 @@ import 'package:curso_ifal_flutter/signin_signup/presentation/routes.dart';
 
 import 'package:curso_ifal_flutter/state_management_tests/streams_page.dart';
 import 'package:curso_ifal_flutter/state_management_tests/streams_page_mobx.dart';
-import 'package:curso_ifal_flutter/tentativas/get_started/presentation/get_started_page.dart';
-import 'package:curso_ifal_flutter/tentativas/shared/layout/colors.dart';
-import 'package:curso_ifal_flutter/tentativas/sigin_signup/presentation/signinup_main_page.dart';
-import 'package:curso_ifal_flutter/tentativas/sigin_signup/presentation/signup_page.dart';
-import 'package:curso_ifal_flutter/tentativas/sigin_signup/presentation/widgets/signin_signup_app_bar_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
