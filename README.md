@@ -4,6 +4,14 @@ Aplicativo de treinamento para o curso de Flutter - IFAL 2022
 
 Este projeto é um aplicativo em Flutter para dentistas e pacientes.
 
+## Configurando o proejto
+
+1. Crie um projeto Android no Firebase
+
+2. Faça o download do arquivo google-services.json e adicione-o em android/app
+
+3. Adicione flutter.minSdkVersion=30 no android/local.properties 
+
 ## Iniciando o projeto
 
 1. Abra o terminal e digite: "flutter emulators" ou "flutter devices" (caso você já tenha um emulador aberto ou um dispositivo conectado ao computador)
