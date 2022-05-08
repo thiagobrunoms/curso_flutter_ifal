@@ -1,4 +1,4 @@
-# Curso IFAL - Flutter
+# Curso - Flutter
 
 Aplicativo de treinamento para o curso de Flutter - IFAL 2022
 
