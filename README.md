@@ -4,7 +4,7 @@ Aplicativo de treinamento para o curso de Flutter - IFAL 2022
 
 Este projeto é um aplicativo em Flutter para dentistas e pacientes.
 
-## Configurando o proejto
+## Configurando o projeto
 
 1. Crie um projeto Android no Firebase
 
